@@ -1,47 +1,46 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
-	mode: 'development',
-	devServer: {
-		contentBase: path.join(__dirname, 'dist'),
-		compress: true,
-		port: 9000
-	},
-	entry: [
-		'multi-entry-loader?include=./src/**/*.html!',
-		'multi-entry-loader?include=./src/**/*.ts!',
-		'multi-entry-loader?include=./src/**/*.js!',
-		'multi-entry-loader?include=./src/shaders/**/*.glsl!'
-	],
-	output: {
-		filename: 'main.js',
-		path: path.resolve(__dirname, 'dist')
-	},
-	resolve: {
-		extensions: ['.js', '.ts']
-	},
-	module: {
-		rules: [
-			{
-				exclude: /\.d\.ts/
-			},
-			{
-				test: /\.html/,
-				loader: 'file-loader?name=[name].[ext]',
-			},
-			{
-				// Possibly add texture files here.
-				test: /\.glsl$/,
-				use: 'raw-loader'
-			},
-			{
-				test: /\.tsx?$/, loader: 'ts-loader'
-			},
-			{
-				test: /\.js$/,
-				enforce: 'pre',
-				use: ['source-map-loader'],
-			},
-		]
-	}
+    entry: ['./src/index.ts',
+        './src/index.html',
+    ],
+    output: {
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+    devtool: 'inline-source-map',
+    mode: 'development',
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: [/node_modules/, /\.d\.ts/],
+            },
+            // load html and asset files (mainly index.html and textures)
+            {
+                test: /\.(html|jpe?g|png|svg)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]'
+                }
+            },
+            // load glsl files to string
+            {
+                test: /\.glsl/,
+                loader: 'raw-loader'
+            },
+        ],
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    // webpack-dev-server configurations
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'dist'),
+        },
+        compress: true,
+        port: 9000,
+    }
 };
