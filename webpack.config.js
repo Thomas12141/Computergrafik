@@ -1,4 +1,3 @@
-// needed at least for typescript
 const path = require('path');
 
 module.exports = {
@@ -42,6 +41,6 @@ module.exports = {
             directory: path.join(__dirname, 'dist'),
         },
         compress: true,
-        port: 8080,
+        port: 9000,
     }
 };
