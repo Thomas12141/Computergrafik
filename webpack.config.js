@@ -5,6 +5,10 @@ module.exports = {
     entry: ['./src/index.ts',
         './src/index.html',
     ],
+    output: {
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
     devtool: 'inline-source-map',
     mode: 'development',
     module: {
@@ -14,7 +18,7 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: [/node_modules/, /\.d\.ts/],
             },
-            // load html files, mainly index.html (copies html to dist)
+            // load html files, mainly index.html (copies html to dist during build)
             {
                 test: /\.html/,
                 loader: 'file-loader',
@@ -31,10 +35,6 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-    },
-    output: {
-        filename: 'main.js',
-        path: path.resolve(__dirname, 'dist'),
     },
     // webpack-dev-server configurations
     devServer: {
