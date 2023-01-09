@@ -10,5 +10,5 @@ Further:
 configure typescript
 https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
 https://webpack.js.org/guides/build-performance/
-
+https://typescript-eslint.io/getting-started
 
