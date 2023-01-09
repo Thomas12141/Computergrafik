@@ -1,4 +1,4 @@
-import vertex from './shaders/vertex.glsl';
+import vertex from "./shaders/vertex.glsl";
 import fragment from "./shaders/fragment.glsl";
 
 class WebGL2 {
@@ -12,7 +12,7 @@ class WebGL2 {
     private constructor(canvasID: string) {
         
         this.canvas = <HTMLCanvasElement>document.getElementById(canvasID);
-        this.gl = this.canvas.getContext('webgl2');
+        this.gl = this.canvas.getContext("webgl2");
         this.initShaders();
 
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);

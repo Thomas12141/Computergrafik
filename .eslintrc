@@ -10,13 +10,13 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
         "semi": [
             "error",
             "always"
+        ],
+        "quotes": [
+            "warn",
+            "double"
         ]
     },
     "ignorePatterns": ["webpack.config.js"]
