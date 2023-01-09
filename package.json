@@ -8,7 +8,7 @@
     "start": "webpack-dev-server",
     "build": "webpack",
     "eslint": "eslint .",
-    "eslint-fix": "eslint . --fix"
+    "eslint-fix": "eslint --fix ."
   },
   "keywords": [],
   "author": "",
