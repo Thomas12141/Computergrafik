@@ -5,8 +5,6 @@
         "noImplicitAny": true,
         "module": "CommonJS",
         "target": "es5",
-       // "jsx": "react", -> not needed?
-       // "allowJs": true,
         "moduleResolution": "node"
     },
     "include": ["src/**/*"],
