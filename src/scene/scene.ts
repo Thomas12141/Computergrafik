@@ -24,13 +24,13 @@ export class Scene {
         this.projectionMatrix = mat4.create();
 
         // Zusammensetzen eines Dreieck
-        let v1 = vec3.create();
+        const v1 = vec3.create();
         vec3.set(v1, -0.75, 0.75, 0.0);
 
-        let v2 = vec3.create();
+        const v2 = vec3.create();
         vec3.set(v2, -0.75, -0.75, 0.0);
 
-        let v3 = vec3.create();
+        const v3 = vec3.create();
         vec3.set(v3, 0.75, -0.75, 0.0);
 
         this.triangle = new Triangle(v1, v2, v3);

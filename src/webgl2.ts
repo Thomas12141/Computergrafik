@@ -32,12 +32,12 @@ class WebGL2 {
         return WebGL2.instance;
     }
 
-    createShaders(sourceShader: any, type: number) {
+    createShaders(sourceShader: string, type: number) {
 
-        var shader = this.gl.createShader(type);
+        const shader = this.gl.createShader(type);
         this.gl.shaderSource(shader, sourceShader);
         this.gl.compileShader(shader);
-        var message = this.gl.getShaderInfoLog(shader);
+        const message = this.gl.getShaderInfoLog(shader);
 
         if (message.length > 0) {
             /* message may be an error or a warning */
@@ -49,8 +49,8 @@ class WebGL2 {
 
     initShaders() {
 
-        let vertexShader = this.createShaders(vertex, this.gl.VERTEX_SHADER);
-        let fragmentShader = this.createShaders(fragment, this.gl.FRAGMENT_SHADER);
+        const vertexShader = this.createShaders(vertex, this.gl.VERTEX_SHADER);
+        const fragmentShader = this.createShaders(fragment, this.gl.FRAGMENT_SHADER);
 
         this.shaderProgram = this.gl.createProgram();
         this.gl.attachShader(this.shaderProgram, vertexShader);
@@ -66,5 +66,5 @@ class WebGL2 {
     }
 }
 
-export let shaderProgram = WebGL2.getInstance().shaderProgram;
-export let gl = WebGL2.getInstance().gl;
+export const shaderProgram = WebGL2.getInstance().shaderProgram;
+export const gl = WebGL2.getInstance().gl;

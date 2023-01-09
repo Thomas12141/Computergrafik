@@ -1,4 +1,4 @@
-import { vec3 } from "gl-matrix"
+import { vec3 } from "gl-matrix";
 import { gl, shaderProgram } from "../webgl2";
 
 export class Triangle {

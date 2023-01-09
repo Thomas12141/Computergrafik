@@ -1,18 +1,17 @@
-import {Scene} from "./scene/scene";
+import { Scene } from "./scene/scene";
 
-let scene = new Scene();
+const scene = new Scene();
 
-function drawAnimatedScene()
-{
+function drawAnimatedScene() {
     scene.draw();
     requestAnimationFrame(drawAnimatedScene);
-} 
+}
 
 drawAnimatedScene();
 
 
 
 
-    
+
 
 

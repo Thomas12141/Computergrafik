@@ -17,9 +17,9 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: [/node_modules/, /\.d\.ts/],
             },
-            // load html files, mainly index.html (copies html to dist during build)
+            // load html and asset files (mainly index.html and textures)
             {
-                test: /\.html/,
+                test: /\.(html|jpe?g|png|svg)$/,
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]'
