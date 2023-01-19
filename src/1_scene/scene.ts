@@ -4,7 +4,6 @@ import { mat4, vec3 } from "gl-matrix";
 
 export class Scene {
     
-    private static instance: Scene;
     private pMatrixUniform: WebGLUniformLocation;
     private mvMatrixUniform: WebGLUniformLocation;
     private modelViewMatrix: mat4;
