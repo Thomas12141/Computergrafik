@@ -1,4 +1,4 @@
-import { Scene } from "./scene/scene";
+import { Scene } from "./1_scene/scene";
 
 const scene = new Scene();
 

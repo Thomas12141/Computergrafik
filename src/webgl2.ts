@@ -1,5 +1,5 @@
-import vertex from "./shaders/vertex.glsl";
-import fragment from "./shaders/fragment.glsl";
+import vertex from "./1_shaders/vertex.glsl";
+import fragment from "./1_shaders/fragment.glsl";
 
 class WebGL2 {
     
