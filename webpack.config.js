@@ -1,9 +1,13 @@
 const path = require('path');
 
+//< create entry file list
+const glob = require('glob');
+let files = glob.sync('./src/**/index.ts');
+files.push(path.resolve(__dirname, './src/index.html'),);
+//>
+
 module.exports = {
-    entry: ['./src/index.ts',
-        './src/index.html',
-    ],
+    entry: files,
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
