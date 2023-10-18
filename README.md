@@ -16,8 +16,8 @@
    -  **ESLint** zur Syntax-Validierung von TypeScript  
 
 ## Installieren von Nodejs v20 auf den IGL-Lab Rechnern
-- Nutzen Sie `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash` um auf den IGL-Rechnern für den aktuellen `User` nvm zu installieren. -
-- Verwenden Sie anschließend den Befehl `nvm install 20` um für Ihren `User` Node.js 20 zu installieren.
+- Nutzen Sie `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash` um auf den IGL-Rechnern für den aktuellen User nvm zu installieren. -
+- Verwenden Sie anschließend den Befehl `nvm install 20` um für Ihren User Node.js 20 zu installieren.
 
 ## Starten des Beispielprogramms
 Nachfolgende Befehle müssen in der Konsole ausgeführt werden.
