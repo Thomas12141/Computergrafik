@@ -3,17 +3,13 @@ import { gl, shaderProgram } from "../webgl2";
 import { mat4, vec3 } from "gl-matrix";
 
 export class Scene {
-    
-    private pMatrixUniform: WebGLUniformLocation;
-    private mvMatrixUniform: WebGLUniformLocation;
-    private modelViewMatrix: mat4;
-    private projectionMatrix: mat4;
-
-
-    private triangle: Triangle;
+    private readonly pMatrixUniform: WebGLUniformLocation;
+    private readonly mvMatrixUniform: WebGLUniformLocation;
+    private readonly modelViewMatrix: mat4;
+    private readonly projectionMatrix: mat4;
+    private readonly triangle: Triangle;
 
     public constructor() {
-        
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
         this.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
@@ -35,19 +31,15 @@ export class Scene {
         this.triangle = new Triangle(v1, v2, v3);
     }
 
-    public draw() {
+    public draw(): void {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    
+
         mat4.identity(this.modelViewMatrix);
         mat4.identity(this.projectionMatrix);
 
         gl.uniformMatrix4fv(this.pMatrixUniform, false, this.projectionMatrix);
         gl.uniformMatrix4fv(this.mvMatrixUniform, false, this.modelViewMatrix);
-    
+
         this.triangle.draw();
     }
 }
-
-
-
-

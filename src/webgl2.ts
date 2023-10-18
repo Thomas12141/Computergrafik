@@ -2,15 +2,12 @@ import vertex from "./1_shaders/vertex.glsl";
 import fragment from "./1_shaders/fragment.glsl";
 
 class WebGL2 {
-    
-    gl:WebGL2RenderingContext;
-    shaderProgram: WebGLProgram;
-
-    private canvas: HTMLCanvasElement;
     private static instance: WebGL2;
+    private canvas: HTMLCanvasElement;
+    private gl: WebGL2RenderingContext;
+    private shaderProgram: WebGLProgram;
 
     private constructor(canvasID: string) {
-        
         this.canvas = <HTMLCanvasElement>document.getElementById(canvasID);
         this.gl = this.canvas.getContext("webgl2");
         this.initShaders();
@@ -18,10 +15,9 @@ class WebGL2 {
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
- 
+
         console.log(this.gl.getParameter(this.gl.VERSION));
         console.log(this.gl.getParameter(this.gl.SHADING_LANGUAGE_VERSION));
-        
     }
 
     public static getInstance(): WebGL2 {
@@ -32,8 +28,7 @@ class WebGL2 {
         return WebGL2.instance;
     }
 
-    createShaders(sourceShader: string, type: number) {
-
+    private createShader(sourceShader: string, type: number): WebGLShader {
         const shader = this.gl.createShader(type);
         this.gl.shaderSource(shader, sourceShader);
         this.gl.compileShader(shader);
@@ -47,10 +42,9 @@ class WebGL2 {
         return shader;
     }
 
-    initShaders() {
-
-        const vertexShader = this.createShaders(vertex, this.gl.VERTEX_SHADER);
-        const fragmentShader = this.createShaders(fragment, this.gl.FRAGMENT_SHADER);
+    private initShaders() {
+        const vertexShader = this.createShader(vertex, this.gl.VERTEX_SHADER);
+        const fragmentShader = this.createShader(fragment, this.gl.FRAGMENT_SHADER);
 
         this.shaderProgram = this.gl.createProgram();
         this.gl.attachShader(this.shaderProgram, vertexShader);
@@ -62,9 +56,17 @@ class WebGL2 {
         }
 
         this.gl.useProgram(this.shaderProgram);
+    }
 
+    public getShaderProgram(): WebGLProgram {
+        return this.shaderProgram;
+    }
+
+    public getGL(): WebGL2RenderingContext {
+        return this.gl;
     }
 }
 
-export const shaderProgram = WebGL2.getInstance().shaderProgram;
-export const gl = WebGL2.getInstance().gl;
+const webgl2 = WebGL2.getInstance();
+export const shaderProgram = webgl2.getShaderProgram();
+export const gl = webgl2.getGL();
