@@ -2,13 +2,28 @@ import { Triangle } from "./triangle";
 import { gl, shaderProgram } from "../webgl2";
 import { mat4, vec3 } from "gl-matrix";
 
+/**
+ * Represents a scene to be rendered in WebGL.
+ */
 export class Scene {
+    /** The uniform location of the projection matrix. */
     private readonly pMatrixUniform: WebGLUniformLocation;
+
+    /** The uniform location of the model view matrix. */
     private readonly mvMatrixUniform: WebGLUniformLocation;
+
+    /** The model view matrix. */
     private readonly modelViewMatrix: mat4;
+
+    /** The projection matrix. */
     private readonly projectionMatrix: mat4;
+
+    /** The triangle to be drawn in the scene. */
     private readonly triangle: Triangle;
 
+    /**
+     * Creates a new Scene object.
+     */
     public constructor() {
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
@@ -31,6 +46,9 @@ export class Scene {
         this.triangle = new Triangle(v1, v2, v3);
     }
 
+    /**
+     * Draws the scene.
+     */
     public draw(): void {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 

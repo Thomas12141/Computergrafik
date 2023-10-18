@@ -1,11 +1,20 @@
 import { vec3 } from "gl-matrix";
 import { gl, shaderProgram } from "../webgl2";
 
+/**
+ * Represents a triangle in 3D space.
+ */
 export class Triangle {
     private vertices: number[];
     private vertexPosBuffer: WebGLBuffer;
     private vertexPosAttribute: number;
 
+    /**
+     * Creates a new Triangle object.
+     * @param v1 The first vertex of the triangle.
+     * @param v2 The second vertex of the triangle.
+     * @param v3 The third vertex of the triangle.
+     */
     constructor(private v1: vec3, private v2: vec3, private v3: vec3) {
         this.vertices = [
             v1[0], v1[1], v1[2],
@@ -24,6 +33,9 @@ export class Triangle {
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STATIC_DRAW);
     }
 
+    /**
+     * Draws the triangle.
+     */
     public draw() {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPosBuffer);
         gl.vertexAttribPointer(this.vertexPosAttribute, 3, gl.FLOAT, false, 0, 0);
