@@ -8,16 +8,15 @@
 
 ## Vorbereitungen
 
-- **Node.js v20.8.1** und **npm v10.1.0** [installieren](https://nodejs.org/en/download/).
+- **Node.js LTS v18.18.2** und **npm v9.8.1** [installieren](https://nodejs.org/en/download/).
+  - [EMPFOHLEN] Per-User Installation via [**nvm**](https://github.com/nvm-sh/nvm#install--update-script) auf unix, MacOS, Windows WSL (obligatorisch auf den Labor-Rechnern in E241):
+    - Installation **nvm**: `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash` 
+    - Installation **Node.js**:  `nvm install 18`
 - **Git** [installieren](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). 
 - Für die Implementierung der Praktikumsaufgaben nutzen Sie eine geeignete **IDE** oder einen **Texteditor** wie z.B. VSCode: [Installation](https://code.visualstudio.com/download).  
    VSCode beinhaltet eine integrierte Konsole und unterstützt nativ TypeScript. Empfohlen werden zudem die Erweiterungen 
    -  zur Editierung von WebGL GLSL Shader-Programmen z.B. **WebGL GLSL Editor Plugin**
    -  **ESLint** zur Syntax-Validierung von TypeScript  
-
-## Installieren von Nodejs v20 auf den IGL-Lab Rechnern
-- Nutzen Sie `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash` um auf den IGL-Rechnern für den aktuellen User nvm zu installieren. -
-- Verwenden Sie anschließend den Befehl `nvm install 20` um für Ihren User Node.js 20 zu installieren.
 
 ## Starten des Beispielprogramms
 Nachfolgende Befehle müssen in der Konsole ausgeführt werden.
