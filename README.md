@@ -8,7 +8,7 @@
 
 ## Vorbereitungen
 
-- **Node.js LTS v18.18.2** und **npm v9.8.1** [installieren](https://nodejs.org/en/download/).
+- **Node.js LTS v18.18.2** mit **npm v9.8.1** [installieren](https://nodejs.org/en/download/).
   - [EMPFOHLEN] Per-User Installation via [**nvm**](https://github.com/nvm-sh/nvm#install--update-script) auf unix, MacOS, Windows WSL (obligatorisch auf den Labor-Rechnern in E241):
     - Installation **nvm**: `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash` 
     - Installation **Node.js**:  `nvm install 18`
