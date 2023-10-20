@@ -17,7 +17,7 @@ Das Praktikum gilt als bestanden, wenn alle Aufgaben dieses Arbeitsblattes erfol
 - [TypeScript Dokumentation](https://www.typescriptlang.org/)
 
 ## Vorbereitung
-Zur Vorbereitung folgen Sie den Anweisungen auf [git-repository](https://git.fh-muenster.de/vclab/cg/cg-wise23-prep/-/blob/main/README.md)
+Zur Vorbereitung folgen Sie den Anweisungen in der [./README.md](https://git.fh-muenster.de/vclab/cg/cg-wise23-prep/-/blob/main/README.md) des Startprojektes.
 
 
 ## Aufgabe 1 - Einstieg in die Shader Programmierung
@@ -34,7 +34,7 @@ Analysieren Sie den gegebenen Quelltext. An welcher Stelle des Codes werden Frag
 <div align="center">
 
 
-![Semantic description of image](P1Zielbild.png)
+![Semantic description of image](A1Zielbild.png)
 
 *Zielbild*
 </div>
