@@ -4,7 +4,6 @@
 - **Internetbrowser** mit **WebGL 2.0** wie z.B. [Firefox](https://www.mozilla.org/de/firefox/new/)
   - Check: [https://get.webgl.org/webgl2/](https://get.webgl.org/webgl2/) :heavy_check_mark:
 - **Git** für den Zugriff auf Praktikumsmaterialien
-- optional Docker -> Beschreibung Todo (Remote Container Erweiterung in vscode)
 
 ## Vorbereitungen
 
