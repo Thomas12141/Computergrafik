@@ -17,6 +17,12 @@ out vec3 vertexColor;
 
 void main(void) {
   gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aVertexPosition, 1.0);
-  vertexColor = aVertexPosition;
+  if (aVertexPosition.x < 0.0 && aVertexPosition.y > 0.0) {
+        vertexColor = vec3(0.0, 1.0, 0.0); 
+    } else if (aVertexPosition.x > 0.0 && aVertexPosition.y < 0.0) {
+        vertexColor = vec3(0.92f, 0.06f, 0.06f); 
+    } else {
+        vertexColor = vec3(0.0, 0.0, 0.0); 
+    }
   
 }
