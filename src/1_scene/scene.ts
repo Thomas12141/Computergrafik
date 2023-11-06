@@ -81,28 +81,28 @@ export class Scene {
         // ZUsammensetzen eines Quaders
 
         const v1 = vec3.create(); // Vorderseite, oben rechts
-        vec3.set(v1, -0.5, 0.5, 0.5);
+        vec3.set(v1, 0.5, -0.5, 0.5);
 
         const v2 = vec3.create(); // Vorderseite, oben links
-        vec3.set(v2, -0.5, -0.5, 0.5);
+        vec3.set(v2, 0.5, 0.5, 0.5);
 
         const v3 = vec3.create(); // Vorderseite, unten links
-        vec3.set(v3, 0.5, -0.5, 0.5);
+        vec3.set(v3, -0.5, 0.5, 0.5);
 
         const v4 = vec3.create(); // Vorderseite, unten rechts
-        vec3.set(v4, 0.5, 0.5, 0.5);
+        vec3.set(v4, -0.5, -0.5, 0.5);
 
         const v5 = vec3.create(); // Rückseite, oben rechts
-        vec3.set(v5, -0.5, 0.5, -0.5);
+        vec3.set(v5, 0.5, -0.5, -0.5);
 
         const v6 = vec3.create(); // Rückseite, oben links
-        vec3.set(v6, 0.5, 0.5, -0.5);
+        vec3.set(v6, -0.5, -0.5, -0.5);
 
         const v7 = vec3.create(); // Rückseite, unten links
-        vec3.set(v7, 0.5, -0.5, -0.5);
+        vec3.set(v7, -0.5, 0.5, -0.5);
 
         const v8 = vec3.create(); // Rückseite, unten rechts
-        vec3.set(v8, -0.5, -0.5, -0.5);
+        vec3.set(v8, 0.5, 0.5, -0.5);
 
         this.quader = new Quader(v1,v2,v3,v4,v5,v6,v7,v8);
 
