@@ -8,6 +8,8 @@ export class Triangle {
     private vertices: number[];
     private vertexPosBuffer: WebGLBuffer;
     private vertexPosAttribute: number;
+    private vertexColor : number[];
+    
 
     /**
      * Creates a new Triangle object.
@@ -21,6 +23,7 @@ export class Triangle {
             v2[0], v2[1], v2[2],
             v3[0], v3[1], v3[2]
         ];
+        
 
         this.vertexPosAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
         gl.enableVertexAttribArray(this.vertexPosAttribute);
@@ -40,5 +43,7 @@ export class Triangle {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPosBuffer);
         gl.vertexAttribPointer(this.vertexPosAttribute, 3, gl.FLOAT, false, 0, 0);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
+              
+        
     }
 }
