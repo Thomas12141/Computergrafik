@@ -31,7 +31,9 @@ export class Scene {
      * Creates a new Scene object.
      */
     public constructor() {
-        
+
+
+
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
         this.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
@@ -40,12 +42,20 @@ export class Scene {
         this.modelViewMatrix = mat4.create();
         this.projectionMatrix = mat4.create();
         this.rotationMatrix = mat4.create();
+
       
+
+
+
 
         new Keyboard((keyCode) => this.keyControl(keyCode));
 
         // Zusammensetzen eines Dreiecks
+
    /*    const v1 = vec3.create();
+=======
+        /*const v1 = vec3.create();
+
         vec3.set(v1, -0.75, 0.75, 0.0);
 
         const v2 = vec3.create();
@@ -53,6 +63,7 @@ export class Scene {
 
         const v3 = vec3.create();
         vec3.set(v3, 0.75, -0.75, 0.0);
+<<<<<<< HEAD
         
          this.triangle = new Triangle(v1,v2,v3);
 
@@ -108,7 +119,8 @@ export class Scene {
 
         this.quader = new Quader(0.5,0.5,1.0);
      
-        
+
+
     }
 
     private keyControl(keyCode : string)
@@ -149,9 +161,12 @@ export class Scene {
         gl.uniformMatrix4fv(this.pMatrixUniform, false, this.projectionMatrix);
         gl.uniformMatrix4fv(this.mvMatrixUniform, false, this.modelViewMatrix);
 
-      //  this.rectangle.draw();
-      // this.triangle.draw();
+
+
+        //this.rectangle.draw();
+        //this.triangle.draw();
         this.quader.draw();
-       
+
+
     }
 }

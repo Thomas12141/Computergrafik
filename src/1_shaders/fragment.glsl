@@ -9,6 +9,7 @@ out vec4 outFragColor;
 in vec3 vertexColor;
 
 void main(void) {
+
     outFragColor = vec4(vertexColor,1.0f);
-    
+
 }

@@ -1,4 +1,5 @@
 import { vec3 } from "gl-matrix";
+
 import { gl, shaderProgram } from "../webgl2";
 import { Rectangle } from "./rectangle";
 
@@ -19,13 +20,18 @@ export class Quader
     private readonly rectangle6: Rectangle;
     
 
+
    /* constructor(private v1: vec3, private v2: vec3, private v3: vec3,private v4 : vec3,private v5:vec3,private v6:vec3, private v7 :vec3,private v8:vec3) {
+
+    constructor(private v1: vec3, private v2: vec3, private v3: vec3,private v4 : vec3,private v5:vec3,private v6:vec3, private v7 :vec3,private v8:vec3) {
+
         this.rectangle1 = new Rectangle(v1, v2, v3, v4);
         this.rectangle2 = new Rectangle(v1, v5, v8, v2);
         this.rectangle3 = new Rectangle(v1, v4, v6, v5);
         this.rectangle4 = new Rectangle(v4, v3, v7, v6);
         this.rectangle5 = new Rectangle(v2, v8, v7, v3);
         this.rectangle6 = new Rectangle(v5, v6, v7, v8);
+
     } */
 
     constructor(private x: number, private y: number, private z: number){
@@ -55,6 +61,7 @@ export class Quader
         this.rectangle6 = new Rectangle(v5, v6, v7, v8);
         
     }
+
     /**
      * Draws the Quader.
      */
@@ -66,7 +73,5 @@ export class Quader
         this.rectangle5.draw();
         this.rectangle6.draw();
     }
-
-
 
 }

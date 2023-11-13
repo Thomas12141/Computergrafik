@@ -43,6 +43,7 @@ export class Triangle {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPosBuffer);
         gl.vertexAttribPointer(this.vertexPosAttribute, 3, gl.FLOAT, false, 0, 0);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
+
               
         
     }

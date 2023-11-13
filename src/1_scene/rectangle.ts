@@ -1,3 +1,4 @@
+
 import { vec3 } from "gl-matrix";
 import { gl, shaderProgram } from "../webgl2";
 import { Triangle } from "./triangle";
@@ -26,6 +27,5 @@ export class Rectangle
               
         
     }
-
 
 }
