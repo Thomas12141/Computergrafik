@@ -105,14 +105,10 @@ public draw(modelViewMatrix:mat4, projectionMatrix:mat4) : void
     gl.vertexAttribPointer(this.vertexPosAttribute,3,gl.FLOAT,false,0,0);
     gl.enableVertexAttribArray(this.vertexPosAttribute);
 
+     // Draw the cylinder without bases
     gl.drawArrays(gl.TRIANGLE_STRIP,0,this.numSegments*3);
     
-    // Draw the cylinder without bases
-  gl.drawArrays(gl.TRIANGLE_FAN, (this.numSegments ) * 2 , this.vertices.length+1);
-
-  
-   
-   
+     
 
 
 }
