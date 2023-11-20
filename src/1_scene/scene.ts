@@ -4,6 +4,7 @@ import { mat4, vec3 } from "gl-matrix";
 import { Rectangle } from "./rectangle";
 import { Quader } from "./quader";
 import { Keyboard } from "../1_controls/keyboard";
+import { Cylinder } from "./zylinder";
 
 /**
  * Represents a scene to be rendered in WebGL.
@@ -25,6 +26,8 @@ export class Scene {
     private readonly triangle: Triangle;
     private readonly rectangle: Rectangle;
     private readonly quader : Quader;
+
+    private readonly cylinder : Cylinder;
 
     private rotationMatrix : mat4;
     /**
@@ -117,8 +120,11 @@ export class Scene {
         vec3.set(v8, -0.5, -0.5, -0.5);
         */
 
-        this.quader = new Quader(0.5,0.5,1.0);
+      //  this.quader = new Quader(0.5,0.5,1.0);
+        
+        const cylinderBaseCenter = vec3.fromValues(0.0,0.0,0.0);
      
+        this.cylinder = new Cylinder(cylinderBaseCenter, 0.5, 0.5,50);
 
 
     }
@@ -165,8 +171,9 @@ export class Scene {
 
         //this.rectangle.draw();
         //this.triangle.draw();
-        this.quader.draw();
-
+      //  this.quader.draw();
+        this.cylinder.draw(this.modelViewMatrix,this.projectionMatrix);
 
     }
+    
 }
