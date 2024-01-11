@@ -15,7 +15,6 @@ class AnimatedScene {
         this.stats = new Stats();
         this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
         document.body.appendChild(this.stats.dom);
-
         this.scene = new Scene();
     }
 
@@ -24,7 +23,7 @@ class AnimatedScene {
      */
     public draw() {
         this.stats.begin();
-        this.scene.draw();
+        this.scene.draw(); // <--- Praktikum 1
         this.stats.end();
 
         requestAnimationFrame(() => this.draw());

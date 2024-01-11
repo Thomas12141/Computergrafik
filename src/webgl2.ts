@@ -1,5 +1,7 @@
-import vertex from "./1_shaders/vertex.glsl";
-import fragment from "./1_shaders/fragment.glsl";
+//import vertex from "./1_shaders/vertex.glsl";
+//import fragment from "./1_shaders/fragment.glsl";
+import phongVertexShader from "./4_phong_shader/phong_vertex.glsl";
+import phongFragmentShader from "./4_phong_shader/phong_fragment.glsl";
 
 /**
  * A singleton class that provides a WebGL2 context and shader program.
@@ -40,8 +42,8 @@ class WebGL2 {
         this.initShaders();
 
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
-        this.gl.enable(this.gl.DEPTH_TEST);
-        this.gl.enable(this.gl.CULL_FACE);
+        this.gl.enable(this.gl.DEPTH_TEST); // z-Buffer is enabled! otherwise it is drawn in the order of traversion
+        this.gl.enable(this.gl.CULL_FACE); // culling is enabled => only objects which are visible are rendered
 
         console.log(this.gl.getParameter(this.gl.VERSION));
         console.log(this.gl.getParameter(this.gl.SHADING_LANGUAGE_VERSION));
@@ -85,11 +87,13 @@ class WebGL2 {
 
     /**
      * Initializes the vertex and fragment shaders.
+     * 
+     * Vertex Shader und Fragment Shader werden hier eingebunden!
      * @private
      */
     private initShaders() {
-        const vertexShader = this.createShader(vertex, this.gl.VERTEX_SHADER);
-        const fragmentShader = this.createShader(fragment, this.gl.FRAGMENT_SHADER);
+        const vertexShader = this.createShader(phongVertexShader, this.gl.VERTEX_SHADER);
+        const fragmentShader = this.createShader(phongFragmentShader, this.gl.FRAGMENT_SHADER);
 
         this.shaderProgram = this.gl.createProgram();
         this.gl.attachShader(this.shaderProgram, vertexShader);
