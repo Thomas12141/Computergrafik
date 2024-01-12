@@ -5,6 +5,7 @@ import { Camera } from "../1_scene/camera";
 import { KinematicsControls } from "./kinematics-controls";
 import { PoseControl } from "../5_animation/pose_control";
 import { RobotAnimation } from "../5_animation/robotanimation";
+import {gl} from "../webgl2";
 
 /**
  * Represents a keyboard controller that listens to keydown events.
@@ -18,6 +19,7 @@ export class Keyboard {
   private camera: Camera;
   private poseControl : PoseControl;
   private robotAnimation : RobotAnimation;
+  private fps  = 500;
 
   /**
    * Creates a new instance of the Keyboard class.
@@ -116,28 +118,24 @@ export class Keyboard {
     switch (event.key) {
         // CAMERA AND CUBOID
       case "w":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.00, 0.01, 0.0]);
-        this.updateJoints();
+        this.move([0.00, 0.01, 0.0]);
+        //mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.00, 0.01, 0.0]);
+        //this.updateJoints();
         break;
       case "a":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(),[-0.01, 0.0, 0.0]);
-        this.updateJoints();
+        this.move([-0.01, 0.0, 0.0]);
         break;
       case "s":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.00, -0.01, 0.0]);
-        this.updateJoints();
+        this.move([0.00, -0.01, 0.0]);
         break;
       case "d":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.01, 0.0, 0.0]);
-        this.updateJoints();
+        this.move([0.01, 0.0, 0.0]);
         break;
       case "q":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.00, 0.0, -0.01]);
-        this.updateJoints();
+        this.move([0.00, 0.0, -0.01]);
         break;
       case "e":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.00, 0.0, 0.01]);
-        this.updateJoints();
+        this.move([0.00, 0.0, 0.01]);
         break;
         // CAMERA ZOOM
       case "ArrowUp":
@@ -152,6 +150,16 @@ export class Keyboard {
           case "ArrowRight":
             this.camera.getTransformationMatrix
             break;*/
+    }
+  }
+  private move(movement : number[]): void{
+    const step : vec3 = vec3.create();
+    step[0] = movement[0]/this.fps;
+    step[1] = movement[1]/this.fps;
+    step[2] = movement[2]/this.fps;
+    for (let i = 0; i < this.fps; i++) {
+      mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), step);
+      this.updateJoints();
     }
   }
 }
