@@ -22,6 +22,11 @@ in vec3 vNormalPos;    // Normale des Vertex im Kamerakoordinatensystem
 // Ausgabevariable für Fragment-Shader
 out vec4 outFragColor; // Ausgabefarbe des Fragments
 
+
+uniform sampler2D uTexture; 
+in vec2 vTextureCoord;
+
+
 void main(void) {
     // Normalisierte Normale des Fragments
     vec3 N = normalize(vNormalPos);
@@ -50,7 +55,7 @@ void main(void) {
        // float specLight = pow(max(dot(R, normalize(vec3(0.0, 0.0, 1.0))), 0.0), uMaterialShininess);
         float specLight = pow(max(dot(R, Z), 0.0), uMaterialShininess);
         specular = vec4(vec3(specLight), 1.0) * uMaterialSpecular * uLightSpecular;
-         diffuse = (a * uMaterialDiffuse * uLightDiffuse);
+         diffuse = (a * uMaterialDiffuse * uLightDiffuse * texture(uTexture, vTextureCoord));
     }
 
 

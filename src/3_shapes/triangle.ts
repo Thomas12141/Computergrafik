@@ -16,6 +16,10 @@ export class Triangle {
     private normalPosBuffer: WebGLBuffer;
     private normalPosAttribute: number;
 
+    private textureCoordinates: number[];
+    private texturePosBuffer: WebGLBuffer;
+    private texturePosAttribute: number;
+
 
     /**
      * Creates a new Triangle object.
@@ -45,12 +49,21 @@ export class Triangle {
 
         ];
 
+        this.textureCoordinates = [
+            texturepos1[0], texturepos1[1],
+            texturepos2[0], texturepos2[1],
+            texturepos3[0], texturepos3[1]
+        ];
+
         this.triangleMaterial = material;
         this.vertexPosAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
         gl.enableVertexAttribArray(this.vertexPosAttribute);
 
         this.normalPosAttribute = gl.getAttribLocation(shaderProgram,"aNormalPosition");
         gl.enableVertexAttribArray(this.normalPosAttribute);
+
+        this.texturePosAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+        gl.enableVertexAttribArray(this.texturePosAttribute);
 
 
        this.initBuffers();
@@ -64,6 +77,10 @@ export class Triangle {
         this.normalPosBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.normalPosBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.normal), gl.STATIC_DRAW);
+
+        this.texturePosBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.texturePosBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.textureCoordinates), gl.STATIC_DRAW);
     }
 
     /**
@@ -73,6 +90,10 @@ export class Triangle {
         this.triangleMaterial.draw();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPosBuffer);
         gl.vertexAttribPointer(this.vertexPosAttribute, 3, gl.FLOAT, false, 0, 0);
+
+        // Texturkoordinaten
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.texturePosBuffer);
+        gl.vertexAttribPointer(this.texturePosAttribute, 2, gl.FLOAT, false, 0, 0);
     
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.normalPosBuffer);
