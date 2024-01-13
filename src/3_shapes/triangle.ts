@@ -1,4 +1,4 @@
-import { vec3 } from "gl-matrix";
+import {vec2, vec3} from "gl-matrix";
 import { gl, shaderProgram } from "../webgl2";
 import { Material } from "../4_material_light/material";
 
@@ -23,7 +23,8 @@ export class Triangle {
      * @param v2 The second vertex of the triangle.
      * @param v3 The third vertex of the triangle.
      */
-    constructor(private v1: vec3, private v2: vec3, private v3: vec3,private material : Material) {
+    constructor(private v1: vec3, private v2: vec3, private v3: vec3,  private texturepos1 : vec2 , private texturepos2 : vec2
+        , private texturepos3 : vec2, private material : Material) {
         this.vertices = [
             v1[0], v1[1], v1[2],
             v2[0], v2[1], v2[2],
@@ -42,7 +43,7 @@ export class Triangle {
             temp[0],temp[1],temp[2],
             temp[0],temp[1],temp[2]
 
-        ]
+        ];
 
         this.triangleMaterial = material;
         this.vertexPosAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");

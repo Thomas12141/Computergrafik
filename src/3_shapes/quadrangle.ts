@@ -1,4 +1,4 @@
-import { vec3 } from "gl-matrix";
+import {vec2, vec3} from "gl-matrix";
 import { gl, shaderProgram } from "../webgl2";
 import { Triangle } from "./triangle";
 import { Material } from "../4_material_light/material";
@@ -19,8 +19,14 @@ export class Quadrangle {
      * @param v2 The second vertex of the quadrangle.
      * @param v3 The third vertex of the quadrangle.
      * @param v4 The fourth vertex of the quadrangle.
+     * @param textureps1
+     * @param textureps2
+     * @param textureps3
+     * @param textureps4
+     * @param material
      */
-    constructor(private v1: vec3, private v2: vec3, private v3: vec3, private v4: vec3,private material : Material){
+    constructor(private v1: vec3, private v2: vec3, private v3: vec3, private v4: vec3, private texturePos1 : vec2 , private texturePos2 : vec2
+        , private texturePos3 : vec2, private texturePos4 : vec2 , private material : Material){
             this.vertices = [
             v1[0], v1[1], v1[2],
             v2[0], v2[1], v2[2],
@@ -28,8 +34,8 @@ export class Quadrangle {
             v4[0], v4[1], v4[2]
         ];
 
-        this.triangle1 = new Triangle(v1, v2, v3,material);
-        this.triangle2 = new Triangle(v3, v4, v1,material);
+        this.triangle1 = new Triangle(v1, v2, v3, texturePos1, texturePos2, texturePos3, material);
+        this.triangle2 = new Triangle(v3, v4, v1,texturePos3, texturePos4, texturePos1, material);
 
      //   this.vertexPosAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
      //   gl.enableVertexAttribArray(this.vertexPosAttribute);
