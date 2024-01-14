@@ -66,7 +66,7 @@ export class Triangle {
         gl.enableVertexAttribArray(this.texturePosAttribute);
 
 
-       this.initBuffers();
+        this.initBuffers();
     }
 
     private initBuffers() {
@@ -94,10 +94,29 @@ export class Triangle {
         // Texturkoordinaten
         gl.bindBuffer(gl.ARRAY_BUFFER, this.texturePosBuffer);
         gl.vertexAttribPointer(this.texturePosAttribute, 2, gl.FLOAT, false, 0, 0);
-    
+
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.normalPosBuffer);
         gl.vertexAttribPointer(this.normalPosAttribute, 3, gl.FLOAT, false, 0, 0);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+        // Create a texture.
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+
+        // Fill the texture with a 1x1 blue pixel.
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+            new Uint8Array([0, 0, 255, 255]));
+
+
+        // Asynchronously load an image
+        const image = new Image();
+        image.src = "../assets/A5Textur1.png";
+        image.addEventListener('load', function() {
+            // Now that the image has loaded make copy it to the texture.
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
+            gl.generateMipmap(gl.TEXTURE_2D);
+        });
     }
 }
