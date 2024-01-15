@@ -3,7 +3,7 @@ import { Quadrangle } from "../3_shapes/quadrangle";
 import { Cuboid } from "../3_shapes/cuboid";
 import { Keyboard } from "../1_controls/keyboard";
 import { gl, shaderProgram } from "../webgl2";
-import { mat4, vec3 } from "gl-matrix";
+import { mat4, vec2, vec3 } from "gl-matrix";
 import { Scenegraph } from "../2_scenegraph/scenegraph";
 import { Joint } from "../2_scenegraph/joint"; 
 import { Link } from "../2_scenegraph/link";
@@ -254,7 +254,16 @@ export class Scene {
         const v3 = vec3.create();
         vec3.set(v3, 0.75, -0.75, 0.0);
 
-        this.triangle = new Triangle(v1, v2, v3,this.chromeMaterial);
+        const text1 = vec2.create();
+        vec2.set(text1,0.5,0.5);
+
+        const text2 = vec2.create();
+        vec2.set(text2,0.75,0.75);
+
+        const text3 = vec2.create();
+        vec2.set(text3,1.0,1.0);
+
+        this.triangle = new Triangle(v1, v2, v3,text1,text2,text3,this.chromeMaterial);
     }
 
     private initQuadrangle(): void {
@@ -270,7 +279,7 @@ export class Scene {
         const v4 = vec3.create();
         vec3.set(v4, 0.75, 0.75, 0.0);
 
-        this.quadrangle = new Quadrangle(v1, v2, v3, v4,this.chromeMaterial);
+  //      this.quadrangle = new Quadrangle(v1, v2, v3, v4,this.chromeMaterial);
     }
 
     private initCuboid(): void {

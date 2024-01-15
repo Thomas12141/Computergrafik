@@ -20,6 +20,8 @@ export class Cylinder extends SGNode {
 
     private readonly normals : number[] = [];
 
+    private textureCoords: number[] = [];
+
     constructor(radius: number, height: number) {
         super();
 
@@ -39,10 +41,16 @@ export class Cylinder extends SGNode {
         this.initVAO();
         this.initVBO();
 
+       
+
         // Get and enable Attribute location
         const vertexAttributeLocation = gl.getAttribLocation(shaderProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexAttributeLocation);
         gl.vertexAttribPointer(vertexAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+
+        const textureCoordAttributeLocation = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+        gl.enableVertexAttribArray(textureCoordAttributeLocation);
+        gl.vertexAttribPointer(textureCoordAttributeLocation, 2, gl.FLOAT, false, 0, 0);
 
         // Unbind VAO
         gl.bindVertexArray(null);

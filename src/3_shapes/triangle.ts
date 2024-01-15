@@ -1,6 +1,7 @@
 import {vec2, vec3} from "gl-matrix";
 import { gl, shaderProgram } from "../webgl2";
 import { Material } from "../4_material_light/material";
+import { Texture } from "../5_texture/texture";
 
 /**
  * Represents a triangle in 3D space.
@@ -20,6 +21,7 @@ export class Triangle {
     private texturePosBuffer: WebGLBuffer;
     private texturePosAttribute: number;
 
+  //  private texture : Texture;
 
     /**
      * Creates a new Triangle object.
@@ -67,6 +69,8 @@ export class Triangle {
 
 
         this.initBuffers();
+
+      //  this.texture = new Texture("../assets/A5Textur1.png");
     }
 
     private initBuffers() {
@@ -100,6 +104,8 @@ export class Triangle {
         gl.vertexAttribPointer(this.normalPosAttribute, 3, gl.FLOAT, false, 0, 0);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
 
+        //this.texture.draw();
+
         // Create a texture.
         const texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -117,6 +123,6 @@ export class Triangle {
             gl.bindTexture(gl.TEXTURE_2D, texture);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
             gl.generateMipmap(gl.TEXTURE_2D);
-        });
+        }); 
     }
 }

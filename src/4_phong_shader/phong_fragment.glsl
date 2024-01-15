@@ -24,6 +24,7 @@ out vec4 outFragColor; // Ausgabefarbe des Fragments
 
 
 uniform sampler2D uTexture; 
+//in vec2 fTextureCoord;
 in vec2 vTextureCoord;
 
 
@@ -61,7 +62,7 @@ void main(void) {
 
 
     // Summe aller Beleuchtungskomponenten für die Endfarbe
-   outFragColor = emissiv + ambient + diffuse + specular;
+   outFragColor = texture(uTexture,vTextureCoord)*(emissiv + ambient + diffuse + specular);
     // outFragColor =  diffuse ;
    // outFragColor = specular;
    // outFragColor = ambient;
