@@ -12,6 +12,12 @@ import { Camera } from "./camera";
 import { KinematicsControls } from "../1_controls/kinematics-controls";
 import { Light } from "../4_material_light/light";
 import { Material } from "../4_material_light/material";
+import earth  from  '../assets/earth.jpg';
+import cuboid  from '../../assets/A5Textur1.jpg';
+import cylinder  from '../../assets/A5Textur2.jpg';
+import { Texture } from "../5_texture/texture";
+
+
 
 /**
  * Represents a scene to be rendered in WebGL.
@@ -50,14 +56,17 @@ export class Scene {
     private scenegraph: Scenegraph;
 
     private pointLight = new Light([0.0,0.0,0.0,1.0], [1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 1.0, 1.0]);
+    private lightTrans = new Transformation();
+    
     private chromeMaterial = new Material([0.25, 0.25, 0.25, 1.0], [0.2, 0.2, 0.2, 1.0], [0.54, 0.54, 0.54, 1.0], [0.66, 0.66, 0.66, 1.0], 32.0);
 
     private camera: Camera;
     private cameraTransformation = new Transformation();
     private kinematics: KinematicsControls;
+   
 
     private jointBasis = new Joint("Joint-Quader", 0.1, 0.1); // Quader2
-    private basis = new Cuboid(0.6, 0.4, 0.3,this.chromeMaterial); // Quader1
+    private basis = new Cuboid(0.6, 0.4, 0.3, this.chromeMaterial); // Quader1
     private joint1 = new Joint("Joint 1", 0.1, 0.1); // Zylinder1
     private link1 = new Link("Link 1",  0.3, 0.1, 0.1); // Quader3
     private joint2 = new Joint("Joint 2",  0.1, 0.1); // Zylinder2
@@ -69,6 +78,7 @@ export class Scene {
     private joint5 = new Joint("Joint 5",  0.1, 0.1); // Zylinder5
 
     private poseCuboid = new Cuboid(0.1, 0.1, 0.1,this.chromeMaterial); // Testwürfel
+    private animationCuboid = new Cuboid(0.1,0.1,0.1,this.chromeMaterial);
 
     private jointBasisTransformation = new Transformation();
     private basisTransformation = new Transformation();
@@ -82,6 +92,13 @@ export class Scene {
     private link4Transformation = new Transformation();
     private joint5Transformation = new Transformation();
     private poseCuboidTransformation = new Transformation();
+    private animationCuboidTransformation = new Transformation();
+
+    private earthTexture = new Texture(earth);
+   // private cuboidTexture = new Texture(cuboid);
+   // private cylinderTexture  = new Texture(cylinder);
+    
+   
 
     /**
      * Creates a new Scene object.
@@ -118,16 +135,18 @@ export class Scene {
     /**
      * Draws the scene.
      */
-    public draw(): void {
+    public draw(time : number): void {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
         this.projectionMatrix = this.camera.getProjectionMatrix();
         gl.uniformMatrix4fv(this.pMatrixUniform, false, this.projectionMatrix);
         gl.uniformMatrix4fv(this.mvMatrixUniform, false, this.modelViewMatrix);
+
+       // this.keyboard.updateJoints();
         
         this.updateViewport();
         
-        this.drawScenegraph();
+        this.drawScenegraph(time);
     }
 
     /** Praktikum 2 und 3 */
@@ -153,6 +172,11 @@ export class Scene {
     private jointsTransformations: mat4[] = [];
 
     private initScenegraph() {
+
+        this.jointBasis.setTexture(this.earthTexture);
+        this.joint4Transformation.setTexture(this.earthTexture);
+
+
         // Rotate the joints
         this.jointBasisTransformation.rotateX(-Math.PI / 2);
         this.jointBasisTransformation.setPosition([0.0, 0.0, 0.0]);
@@ -190,13 +214,14 @@ export class Scene {
 
         // Build the scene
         this.poseCuboidTransformation.addChild(this.poseCuboid);
+        this.lightTrans.addChild(this.pointLight);
+        this.poseCuboid.addChild(this.lightTrans);
+        this.animationCuboidTransformation.addChild(this.animationCuboid);
 
         this.joint5Transformation.addChild(this.joint5);
 
         this.link4.addChild(this.joint5Transformation);
         this.link4Transformation.addChild(this.link4);
-
-        this.joint5Transformation.addChild(this.pointLight);
 
         this.joint4.addChild(this.link4Transformation);
         this.joint4Transformation.addChild(this.joint4);
@@ -228,7 +253,7 @@ export class Scene {
         this.camera.addChild(this.jointBasisTransformation);
         this.cameraTransformation.addChild(this.camera);
 
-        this.keyboard.setNodesToRotate(this.poseCuboidTransformation, this.camera,
+        this.keyboard.setNodesToRotate(this.poseCuboidTransformation,this.animationCuboidTransformation, this.camera,
             [
                 this.jointBasisTransformation, this.joint1Transformation,
                 this.joint2Transformation, this.joint3Transformation,
@@ -237,8 +262,9 @@ export class Scene {
         this.scenegraph = new Scenegraph(this.cameraTransformation, this.modelViewMatrix);
     }
 
-    private drawScenegraph() {
-        this.scenegraph.draw();
+    private drawScenegraph(time:number) {
+        this.scenegraph.draw(time);
+        this.keyboard.setTime(time);
         this.pointLight.draw();
     }
 
@@ -263,7 +289,7 @@ export class Scene {
         const text3 = vec2.create();
         vec2.set(text3,1.0,1.0);
 
-        this.triangle = new Triangle(v1, v2, v3,text1,text2,text3,this.chromeMaterial);
+     //   this.triangle = new Triangle(v1, v2, v3,,this.texture,this.chromeMaterial);
     }
 
     private initQuadrangle(): void {

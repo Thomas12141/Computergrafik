@@ -7,6 +7,7 @@ import * as Stats from "stats.js";
 class AnimatedScene {
     private stats: Stats;
     private scene: Scene;
+    private time = 0;
 
     /**
      * Initializes a new instance of the AnimatedScene class.
@@ -21,14 +22,20 @@ class AnimatedScene {
     /**
      * Draws the scene.
      */
-    public draw() {
-        this.stats.begin();
-        this.scene.draw(); // <--- Praktikum 1
-        this.stats.end();
+    public draw( jetzt :number) {
 
-        requestAnimationFrame(() => this.draw());
+        jetzt *= 0.001;
+        const delTime = jetzt - this.time;
+
+        this.stats.begin();
+        this.scene.draw(delTime); // <--- Praktikum 1
+        this.stats.end();
+        
+        requestAnimationFrame(() => this.draw(jetzt));
+        
     }
 }
 
 const animatedScene = new AnimatedScene();
-animatedScene.draw();
+// animatedScene.draw();
+requestAnimationFrame((jetzt) => animatedScene.draw(jetzt));

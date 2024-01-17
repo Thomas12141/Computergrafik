@@ -53,20 +53,28 @@ void main(void) {
     vec4 specular = vec4(0.0, 0.0, 0.0, 1.0);
     float a = max(dot(N, L), 0.0);
     if (a > 0.0) {
-       // float specLight = pow(max(dot(R, normalize(vec3(0.0, 0.0, 1.0))), 0.0), uMaterialShininess);
-        float specLight = pow(max(dot(R, Z), 0.0), uMaterialShininess);
+       //Phong
+       // float specLight = pow(max(dot(R, Z), 1.0), uMaterialShininess * 128.0 );
+      //  specular = vec4(vec3(specLight), 0.0) * uMaterialSpecular * uLightSpecular;
+
+    //Blinn
+       vec3 halfWayDir = normalize(L + Z);
+       float specLight = pow(max(dot(N, halfWayDir), 0.0), uMaterialShininess * 128.0 ); //light dir + view dir
         specular = vec4(vec3(specLight), 1.0) * uMaterialSpecular * uLightSpecular;
+
          diffuse = (a * uMaterialDiffuse * uLightDiffuse * texture(uTexture, vTextureCoord));
     }
 
 
 
     // Summe aller Beleuchtungskomponenten für die Endfarbe
-   outFragColor = texture(uTexture,vTextureCoord)*(emissiv + ambient + diffuse + specular);
+    // outFragColor = (emissiv + ambient + diffuse + specular);
+    vec4 texture = texture(uTexture,vTextureCoord);
+     outFragColor = emissiv + ambient + diffuse + specular + texture; 
     // outFragColor =  diffuse ;
    // outFragColor = specular;
-   // outFragColor = ambient;
+    //outFragColor = ambient;
    // outFragColor = emissiv;
-   //outFragColor = vec4(N,1.0);
-   // outFragColor = 0.5 * (vec4(N, 1.0) + vec4(1.0, 1.0, 1.0, 1.0));
+   // outFragColor = vec4(N,1.0);
+  //  outFragColor = 0.5 * (vec4(N, 1.0) + vec4(1.0, 1.0, 1.0, 1.0));
 }

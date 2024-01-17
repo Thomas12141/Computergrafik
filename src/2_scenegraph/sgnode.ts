@@ -1,4 +1,5 @@
 import { mat4 } from "gl-matrix";
+import { Texture } from "../5_texture/texture";
 
 /**
  * Represents a node in a scene graph.
@@ -12,6 +13,11 @@ export class SGNode {
     mat4.identity(this.transformationMatrix);
 }
 
+setTexture(texture: Texture)
+    {
+        this.addChild(texture);
+    }
+    
   setTransformationMatrix(transformationMatrix: mat4) {
     this.transformationMatrix = transformationMatrix;
   }
@@ -57,9 +63,9 @@ export class SGNode {
   /**
    * Draws this node and its children.
    */
-  draw(): void {
+  draw(deltaTime : number): void {
     this.children.forEach(child => {
-      child.draw();
+      child.draw(deltaTime);
     });
   }
 

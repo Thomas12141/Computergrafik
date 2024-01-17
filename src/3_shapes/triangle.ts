@@ -1,4 +1,4 @@
-import {vec2, vec3} from "gl-matrix";
+import {mat4, vec2, vec3} from "gl-matrix";
 import { gl, shaderProgram } from "../webgl2";
 import { Material } from "../4_material_light/material";
 import { Texture } from "../5_texture/texture";
@@ -20,8 +20,9 @@ export class Triangle {
     private textureCoordinates: number[];
     private texturePosBuffer: WebGLBuffer;
     private texturePosAttribute: number;
+  
 
-  //  private texture : Texture;
+    
 
     /**
      * Creates a new Triangle object.
@@ -29,8 +30,8 @@ export class Triangle {
      * @param v2 The second vertex of the triangle.
      * @param v3 The third vertex of the triangle.
      */
-    constructor(private v1: vec3, private v2: vec3, private v3: vec3,  private texturepos1 : vec2 , private texturepos2 : vec2
-        , private texturepos3 : vec2, private material : Material) {
+    constructor(private v1: vec3, private v2: vec3, private v3: vec3, textureCoordinates : number[], 
+         private material : Material) {
         this.vertices = [
             v1[0], v1[1], v1[2],
             v2[0], v2[1], v2[2],
@@ -51,11 +52,7 @@ export class Triangle {
 
         ];
 
-        this.textureCoordinates = [
-            texturepos1[0], texturepos1[1],
-            texturepos2[0], texturepos2[1],
-            texturepos3[0], texturepos3[1]
-        ];
+        this.textureCoordinates = textureCoordinates;
 
         this.triangleMaterial = material;
         this.vertexPosAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
@@ -70,10 +67,12 @@ export class Triangle {
 
         this.initBuffers();
 
-      //  this.texture = new Texture("../assets/A5Textur1.png");
+      
     }
 
     private initBuffers() {
+
+        
         this.vertexPosBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPosBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STATIC_DRAW);
@@ -102,27 +101,10 @@ export class Triangle {
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.normalPosBuffer);
         gl.vertexAttribPointer(this.normalPosAttribute, 3, gl.FLOAT, false, 0, 0);
+        
+
         gl.drawArrays(gl.TRIANGLES, 0, 3);
 
-        //this.texture.draw();
-
-        // Create a texture.
-        const texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-
-        // Fill the texture with a 1x1 blue pixel.
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-            new Uint8Array([0, 0, 255, 255]));
-
-
-        // Asynchronously load an image
-        const image = new Image();
-        image.src = "../assets/A5Textur1.png";
-        image.addEventListener('load', function() {
-            // Now that the image has loaded make copy it to the texture.
-            gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
-            gl.generateMipmap(gl.TEXTURE_2D);
-        }); 
-    }
+        //
+}
 }

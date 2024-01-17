@@ -1,5 +1,6 @@
 import { Cuboid } from "../3_shapes/cuboid";
 import { Material } from "../4_material_light/material";
+import { Texture } from "../5_texture/texture";
 import { Component } from "./component";
 
 /**
@@ -8,6 +9,7 @@ import { Component } from "./component";
 export class Link extends Component {
 
     private cuboid: Cuboid;
+    
 
     /**
      * Creates a new instance of Link.

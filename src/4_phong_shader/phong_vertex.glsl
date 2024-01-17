@@ -13,7 +13,7 @@ out vec3 vNormalPos;
 
 
 out vec2 vTextureCoord;
-// out vec2 fTextureCoord;
+
 
 void main(void) {
     gl_Position = uProjectionMatrix * uModelViewMatrix *vec4(aVertexPosition, 1);
@@ -21,6 +21,6 @@ void main(void) {
     vVertexPos = pos.xyz / pos.w;
      vNormalPos = normalize(uNormalMatrix * aNormalPosition);
      
-      vTextureCoord = aTextureCoord;
-   //   fTextureCoord = aTextureCoord;
+     vTextureCoord = aTextureCoord;
+  
 }

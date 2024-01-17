@@ -22,18 +22,14 @@ export class Scenegraph {
 	constructor(rootNode: SGNode, private modelViewMatrix: mat4) {
 		this.root = rootNode;
 		this.matrixStack = new MatrixStack();
-		const temp = mat4.create();
-		//mat4.lookAt(temp, [0, 0, 5], [0 ,0 ,0], [0, 1, 0]);
-		this.matrixStack.push(temp);
-		this.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
-		this.uNormalMatrix = gl.getUniformLocation(shaderProgram, "uNormalMatrix");
+		
 	}
 
 	/**
 	 * Traverses the given node and its children, logging the traversal to the logStrings array.
 	 * @param node The node to traverse.
 	 */
-	traverse(node: SGNode): void {		
+	traverse(node: SGNode, time : number): void {		
 		const mvMat = mat4.create();
 		mat4.multiply(mvMat, this.matrixStack.peak(), node.getTransformationMatrix());
 		this.matrixStack.push(mvMat);
@@ -54,14 +50,14 @@ export class Scenegraph {
 		this.logStrings.push("{");
 		
 		const traverse: string = node.toString() + "";
-		node.draw();
+		node.draw(time);
 
 		this.logStrings.push(traverse);
 
 		this.logStrings.push("[");
 
 		for (const child of node.getChildren()) {
-			this.traverse(child);
+			this.traverse(child,time);
 		}
 
 		this.matrixStack.pop();
@@ -86,14 +82,14 @@ export class Scenegraph {
 	/**
 	 * Draws the scenegraph by traversing it and logging the traversal to the console.
 	 */
-	draw(): void {
+	draw(time: number): void {
 		//if (!this.hasPrinted) {
 			this.counter = 0;
 			this.logStrings = [];
 			// console.log("Zeichne Szenegraph:");
 			// console.log("Bspl: {Knoten,[{Kind,[]}]}");
 
-			this.traverse(this.root);
+			this.traverse(this.root,time);
 
 			// console.log(this.toString());
 			// console.log("Zeichnen des Szenegraphen abgeschlossen.");	
