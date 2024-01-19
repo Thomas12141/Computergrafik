@@ -38,12 +38,12 @@ export class Triangle {
             v3[0], v3[1], v3[2]
         ];
 
-        const v12 = vec3.create();
-        vec3.subtract(v12, v1, v2);
-        const v32 = vec3.create();
-        vec3.subtract(v32,v3,v2);
+        const v21 = vec3.create();
+        vec3.subtract(v21, v1, v2);
+        const v23 = vec3.create();
+        vec3.subtract(v23,v3,v2);
         const temp = vec3.create();
-        vec3.cross(temp, v12, v32);
+        vec3.cross(temp, v23, v21);
 
         this.normal = [
             temp[0],temp[1],temp[2],

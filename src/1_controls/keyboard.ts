@@ -16,7 +16,7 @@ export class Keyboard {
   private identityMatrix = mat4.create();
   //private toRotate: Transformation[] = []; // Joints to rotate
   private root: SGNode;
-  private animationRote : SGNode;
+  private animationNode : SGNode;
   private camera: Camera;
   private time : number;
  // private poseControl : PoseControl;
@@ -26,7 +26,7 @@ export class Keyboard {
   /**
    * Creates a new instance of the Keyboard class.
    */
-  constructor(private rotationMatrix: mat4, private kinematics?: KinematicsControls) {
+  constructor(private rotationMatrix: mat4, private kinematics: KinematicsControls) {
     document.addEventListener("keydown", this.keyControl.bind(this));
     mat4.identity(this.identityMatrix);
 
@@ -47,12 +47,12 @@ export class Keyboard {
 
   public setNodesToRotate(root: SGNode, animationNode : SGNode, camera: Camera, nodes: Transformation[]): void {
     this.root = root;
-   this.animationRote = animationNode;
+   this.animationNode = animationNode;
     this.camera = camera;
 
     if(this.kinematics )
     {
-      this.kinematics.setNodesToAnimate(this.root,this.animationRote,nodes);
+      this.kinematics.setNodesToAnimate(this.root,this.animationNode,nodes);
     }
   }
  /* private oldAngles: number[] = [0,0,0,0,0,0];
@@ -111,6 +111,17 @@ export class Keyboard {
             } 
     }
   }
+  */
+  
+  public setTime(time : number)
+  {
+    this.time = time;
+  }
+
+  public animateTimeBased()
+  {
+    this.kinematics.calculateAnimationTimeBased(this.time);
+  }
 
 
     /**
@@ -121,47 +132,49 @@ export class Keyboard {
    */
   private keyControl(event: KeyboardEvent) {
     // console.log("KeyCode: " + event.key);
-    if (!this.root) {
-      this.root = new SGNode();
+    if (!this.animationNode) {
+      this.animationNode = new SGNode();
     }
     switch (event.key) {
         // CAMERA AND CUBOID
       case "w":
        // this.move([0.00, 0.01, 0.0]);
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.00, 0.01, 0.0]);
+        mat4.translate(this.animationNode.getTransformationMatrix(),this.animationNode.getTransformationMatrix(), [0.00, 0.01, 0.0]);
+
         this.kinematics.updateNodesToRotate();
         //this.updateJoints();
         break;
       case "a":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [-0.01, 0.00, 0.0]);
+        mat4.translate(this.animationNode.getTransformationMatrix(),this.animationNode.getTransformationMatrix(), [-0.01, 0.00, 0.0]);
         this.kinematics.updateNodesToRotate();
        // this.move([-0.01, 0.0, 0.0]);
         break;
       case "s":
        // this.move([0.00, -0.01, 0.0]);
-       mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.00, -0.01, 0.0]);
+       mat4.translate(this.animationNode.getTransformationMatrix(),this.animationNode.getTransformationMatrix(), [0.00, -0.01, 0.0]);
         this.kinematics.updateNodesToRotate();
         break;
       case "d":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.01, 0.00, 0.0]);
+        mat4.translate(this.animationNode.getTransformationMatrix(),this.animationNode.getTransformationMatrix(), [0.01, 0.00, 0.0]);
         this.kinematics.updateNodesToRotate();
         //this.move([0.01, 0.0, 0.0]);
         break;
       case "q":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.00, 0.0, -0.01]);
+        mat4.translate(this.animationNode.getTransformationMatrix(),this.animationNode.getTransformationMatrix(), [0.00, 0.0, -0.01]);
         this.kinematics.updateNodesToRotate();
       //  this.move([0.00, 0.0, -0.01]);
         break;
       case "e":
-        mat4.translate(this.root.getTransformationMatrix(),this.root.getTransformationMatrix(), [0.00, 0.0, 0.01]);
+        mat4.translate(this.animationNode.getTransformationMatrix(),this.animationNode.getTransformationMatrix(), [0.00, 0.0, 0.01]);
         this.kinematics.updateNodesToRotate();
       //  this.move([0.00, 0.0, 0.01]);
         break;
-        case "x":
+        case "r":
           if(this.kinematics)
           {
             this.animateTimeBased();
           }
+          break;
         // CAMERA ZOOM
       case "ArrowUp":
         this.camera.zoom(0.05);
@@ -176,16 +189,6 @@ export class Keyboard {
             this.camera.getTransformationMatrix
             break;*/
     }
-  }
-
-  public setTime(time : number)
-  {
-    this.time = time;
-  }
-
-  public animateTimeBased()
-  {
-    this.kinematics.calculateAnimationTimeBased(this.time);
   }
 
 

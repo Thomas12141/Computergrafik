@@ -31,7 +31,8 @@ class AnimatedScene {
         this.scene.draw(delTime); // <--- Praktikum 1
         this.stats.end();
         
-        requestAnimationFrame(() => this.draw(jetzt));
+        requestAnimationFrame((jetzt) => this.draw(jetzt));
+        this.time = jetzt;
         
     }
 }

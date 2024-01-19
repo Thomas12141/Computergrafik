@@ -81,6 +81,7 @@ export class Cuboid extends SGNode {
      * Draws the cuboid.
      */
     public draw() {
+        this.material.draw();
         this.quadrangles.forEach(quadrangle => {
             quadrangle.draw();
         });

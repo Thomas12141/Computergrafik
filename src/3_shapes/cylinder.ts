@@ -75,14 +75,18 @@ export class Cylinder extends SGNode {
 
         this.normals.push(0, 0, sign);
         this.vertices.push(0, 0, z); // Center
+        this.textureCoords.push(0,0);
         for (let j = 0; j < this.slices; j++) {
             const phi = j * 2 * Math.PI / (this.slices - 1);
             const x = radius * Math.cos(sign * phi);
             const y = radius * Math.sin(sign * phi);
             this.vertices.push(x, y, z);
             this.normals.push(0,0,sign);
+            const xT = Math.cos(sign * phi);
+            const yT = Math.sin(sign * phi);
+            this.textureCoords.push((xT+1)/2,(yT+1)/2);
         }
-        const quarterSlices = this.slices / 4;
+       /* const quarterSlices = this.slices / 4;
         const quarterA = Math.PI / 2;
 
         for(let i = 0; i < quarterSlices; i++)
@@ -107,7 +111,7 @@ export class Cylinder extends SGNode {
         {
             const phi = i*Math.PI/2 / (quarterSlices -1);
             this.textureCoords.push(0,phi);
-        }
+        } */
     }
 
     private computeBodyVertices(radius: number, hh: number) {
@@ -127,8 +131,12 @@ export class Cylinder extends SGNode {
             this.vertices.push(x, y, -hh);
             this.normals.push(x,y,0);
             this.normals.push(x,y,0);
-            this.textureCoords.push(phi,0);
-            this.textureCoords.push(phi,1);
+        //    const xT = Math.cos(phi);
+         //   const yT = Math.sin(phi);
+         //   this.textureCoords.push((xT+1)/2,(yT+1)/2);
+         //   this.textureCoords.push((xT+1)/2,(yT+1)/2);
+            this.textureCoords.push(j/(this.slices-1),0);
+            this.textureCoords.push(j/(this.slices -1),1);
         }
     
     }
@@ -147,20 +155,24 @@ export class Cylinder extends SGNode {
         gl.enableVertexAttribArray(vertexAttributeLocation);
         gl.vertexAttribPointer(vertexAttributeLocation, 3, gl.FLOAT, false, 0, 0);
 
-        const normalAttributeLocation = gl.getAttribLocation(shaderProgram, "aNormalPosition");
-        gl.enableVertexAttribArray(normalAttributeLocation);
-        gl.vertexAttribPointer(normalAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+        
         
         this.normalBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.normals), gl.STATIC_DRAW);
 
-        const textureCoordAttributeLocation = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-        gl.enableVertexAttribArray(textureCoordAttributeLocation);
-        gl.vertexAttribPointer(textureCoordAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+        const normalAttributeLocation = gl.getAttribLocation(shaderProgram, "aNormalPosition");
+        gl.enableVertexAttribArray(normalAttributeLocation);
+        gl.vertexAttribPointer(normalAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+
+       
         this.texturePosBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.texturePosBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.textureCoords), gl.STATIC_DRAW);
+    
+        const textureCoordAttributeLocation = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+        gl.enableVertexAttribArray(textureCoordAttributeLocation);
+        gl.vertexAttribPointer(textureCoordAttributeLocation, 2, gl.FLOAT, false, 0, 0);
     }
 
     public draw() {

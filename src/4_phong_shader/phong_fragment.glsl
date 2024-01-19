@@ -54,15 +54,15 @@ void main(void) {
     float a = max(dot(N, L), 0.0);
     if (a > 0.0) {
        //Phong
-       // float specLight = pow(max(dot(R, Z), 1.0), uMaterialShininess * 128.0 );
-      //  specular = vec4(vec3(specLight), 0.0) * uMaterialSpecular * uLightSpecular;
+       // float specLight = pow(max(dot(R, Z), 0.0), uMaterialShininess * 128.0 );
+       // specular = vec4(vec3(specLight), 0.0) * uMaterialSpecular * uLightSpecular;
 
     //Blinn
        vec3 halfWayDir = normalize(L + Z);
        float specLight = pow(max(dot(N, halfWayDir), 0.0), uMaterialShininess * 128.0 ); //light dir + view dir
         specular = vec4(vec3(specLight), 1.0) * uMaterialSpecular * uLightSpecular;
-
-         diffuse = (a * uMaterialDiffuse * uLightDiffuse * texture(uTexture, vTextureCoord));
+    
+         diffuse = (a * uMaterialDiffuse * uLightDiffuse );
     }
 
 
@@ -71,6 +71,7 @@ void main(void) {
     // outFragColor = (emissiv + ambient + diffuse + specular);
     vec4 texture = texture(uTexture,vTextureCoord);
      outFragColor = emissiv + ambient + diffuse + specular + texture; 
+    // outFragColor = vec4(vTextureCoord.s,vTextureCoord.t,0.0,1.0);
     // outFragColor =  diffuse ;
    // outFragColor = specular;
     //outFragColor = ambient;

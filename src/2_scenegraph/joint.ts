@@ -17,7 +17,7 @@ export class Joint extends Component {
      */
     constructor(name: string, width: GLfloat, height: GLfloat) {
         super(name);
-        this.cylinder = new Cylinder(width/2, height,new Material([0.25, 0.25, 0.25, 1.0], [0.2, 0.2, 0.2, 1.0], [0.54, 0.54, 0.54, 1.0], [0.66, 0.66, 0.66, 1.0], 32.0));
+        this.cylinder = new Cylinder(width/2, height,new Material([0.25, 0.25, 0.25, 1.0], [0.2, 0.2, 0.2, 1.0], [0.54, 0.54, 0.54, 1.0], [0.66, 0.66, 0.66, 1.0], 0.6));
         this.addChild(this.cylinder);
     }
 }

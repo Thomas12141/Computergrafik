@@ -91,6 +91,7 @@ export class KinematicsControls {
     }
 
     public time = 1;
+    
     public async calculateAnimation()
     {
       if(!this.poseNode || !this.animationNode)
@@ -147,7 +148,7 @@ export class KinematicsControls {
       mat4.getTranslation(this.poseNodePos,this.poseNode.getTransformationMatrix());
       mat4.getTranslation(this.animationNodePos,this.animationNode.getTransformationMatrix());
       
-      vec3.subtract(this.diff,this.animationNodePos,this.poseNodePos);
+      vec3.sub(this.diff,this.animationNodePos,this.poseNodePos);
       vec3.scale(this.diff,this.diff,time/this.timeWindow);
 
       mat4.translate(this.poseNode.getTransformationMatrix(),this.poseNode.getTransformationMatrix(),this.diff);

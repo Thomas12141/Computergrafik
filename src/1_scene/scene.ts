@@ -13,6 +13,7 @@ import { KinematicsControls } from "../1_controls/kinematics-controls";
 import { Light } from "../4_material_light/light";
 import { Material } from "../4_material_light/material";
 import earth  from  '../assets/earth.jpg';
+import goku from '../assets/dragon-ball-goku.jpg';
 import cuboid  from '../../assets/A5Textur1.jpg';
 import cylinder  from '../../assets/A5Textur2.jpg';
 import { Texture } from "../5_texture/texture";
@@ -55,10 +56,12 @@ export class Scene {
 
     private scenegraph: Scenegraph;
 
-    private pointLight = new Light([0.0,0.0,0.0,1.0], [1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 1.0, 1.0]);
+    private pointLight = new Light([0.0,0.0,0.0,1.0], [0.5, 0.5, 0.5, 1.0], [1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 1.0, 1.0]);
     private lightTrans = new Transformation();
     
-    private chromeMaterial = new Material([0.25, 0.25, 0.25, 1.0], [0.2, 0.2, 0.2, 1.0], [0.54, 0.54, 0.54, 1.0], [0.66, 0.66, 0.66, 1.0], 32.0);
+    private material1 = new Material([0.25, 0.25, 0.25, 1.0], [0.2, 0.2, 0.2, 1.0], [0.54, 0.54, 0.54, 1.0], [0.66, 0.66, 0.66, 1.0], 0.6);
+  //  private material1 = new Material([0.0, 0.0, 0.0, 1.0], [0.1, 0.35, 0.1, 1.0], [0.1, 0.35, 0.1, 1.0], [0.45, 0.55, 0.45, 1.0], 0.6);
+    
 
     private camera: Camera;
     private cameraTransformation = new Transformation();
@@ -66,19 +69,21 @@ export class Scene {
    
 
     private jointBasis = new Joint("Joint-Quader", 0.1, 0.1); // Quader2
-    private basis = new Cuboid(0.6, 0.4, 0.3, this.chromeMaterial); // Quader1
-    private joint1 = new Joint("Joint 1", 0.1, 0.1); // Zylinder1
+    private basis = new Cuboid(0.6, 0.4, 0.3, this.material1); // Quader1
+    private joint1 = new Joint("Joint 1", 0.15, 0.15); // Zylinder1
     private link1 = new Link("Link 1",  0.3, 0.1, 0.1); // Quader3
-    private joint2 = new Joint("Joint 2",  0.1, 0.1); // Zylinder2
+    private joint2 = new Joint("Joint 2",  0.15, 0.15); // Zylinder2
     private link2 = new Link("Link 2",  0.3, 0.1, 0.1); // Quader4
-    private joint3 = new Joint("Joint 3", 0.1, 0.1); // Zylinder3
+    private joint3 = new Joint("Joint 3", 0.15, 0.15); // Zylinder3
     private link3 = new Link("Link 3",  0.3, 0.1, 0.1); // Quader5
-    private joint4 = new Joint("Joint 4",  0.1, 0.1); // Zylinder4
+    private joint4 = new Joint("Joint 4",  0.15, 0.15); // Zylinder4
     private link4 = new Link("Link 4",  0.3, 0.1, 0.1); // Quader6
-    private joint5 = new Joint("Joint 5",  0.1, 0.1); // Zylinder5
+    private joint5 = new Joint("Joint 5",  0.15, 0.15); // Zylinder5
+   
+    private boden = new Cuboid(1.0,0.001,1.0, this.material1);
 
-    private poseCuboid = new Cuboid(0.1, 0.1, 0.1,this.chromeMaterial); // Testwürfel
-    private animationCuboid = new Cuboid(0.1,0.1,0.1,this.chromeMaterial);
+    private poseCuboid = new Cuboid(0.1, 0.1, 0.1,this.material1); // Testwürfel
+    private animationCuboid = new Cuboid(0.1,0.1,0.1,this.material1);
 
     private jointBasisTransformation = new Transformation();
     private basisTransformation = new Transformation();
@@ -95,6 +100,7 @@ export class Scene {
     private animationCuboidTransformation = new Transformation();
 
     private earthTexture = new Texture(earth);
+    private gokuTexture = new Texture(goku);
    // private cuboidTexture = new Texture(cuboid);
    // private cylinderTexture  = new Texture(cylinder);
     
@@ -105,7 +111,7 @@ export class Scene {
      */
     public constructor() {
         this.camera = new Camera();
-        this.cameraTransformation.setPosition([0.0, 0.0, -1.0]);
+        this.cameraTransformation.setPosition([0.0, -0.2, -1.0]);
 
         this.kinematics = new KinematicsControls();
 
@@ -167,14 +173,19 @@ export class Scene {
         this.link3Transformation.rotateY(-Math.PI / 2);
         this.joint4Transformation.rotateY(0 / 2);
         this.link4Transformation.rotateY(0 / 2);
+        
     }
 
     private jointsTransformations: mat4[] = [];
 
     private initScenegraph() {
 
-        this.jointBasis.setTexture(this.earthTexture);
-        this.joint4Transformation.setTexture(this.earthTexture);
+        this.jointBasisTransformation.setTexture(this.earthTexture);
+        this.joint4Transformation.setTexture(this.gokuTexture);
+        this.link1Transformation.setTexture(this.gokuTexture);
+        this.link2Transformation.setTexture(this.gokuTexture);
+        this.joint3Transformation.setTexture(this.earthTexture);
+        
 
 
         // Rotate the joints
@@ -209,8 +220,12 @@ export class Scene {
 
         this.joint5Transformation.rotateY(Math.PI / 2);
         this.joint5Transformation.setPosition([0.0, 0.0, 0.15]);
+       
+        this.lightTrans.setPosition([0,0,0]);
 
+        this.animationCuboidTransformation.setPosition([1.0,0.0,0.0]);
         this.poseCuboidTransformation.setPosition([1.0, 0.0 , 0.0]);
+       
 
         // Build the scene
         this.poseCuboidTransformation.addChild(this.poseCuboid);
@@ -251,7 +266,10 @@ export class Scene {
 
         this.camera.addChild(this.poseCuboidTransformation);
         this.camera.addChild(this.jointBasisTransformation);
+        this.camera.addChild(this.animationCuboidTransformation);
         this.cameraTransformation.addChild(this.camera);
+
+        this.camera.addChild(this.boden);
 
         this.keyboard.setNodesToRotate(this.poseCuboidTransformation,this.animationCuboidTransformation, this.camera,
             [
@@ -309,7 +327,7 @@ export class Scene {
     }
 
     private initCuboid(): void {
-        this.cuboid = new Cuboid(0.5,2.0,1.0,this.chromeMaterial);
+        this.cuboid = new Cuboid(0.5,2.0,1.0,this.material1);
     }
 
     private drawAufgabe1(): void {
