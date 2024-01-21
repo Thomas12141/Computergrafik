@@ -34,6 +34,7 @@ class AnimatedScene {
         this.stats.begin();
         if(this.steps>0){
             this.scene.keyboard.animateTimeBased();
+            this.steps--;
         }
         this.scene.draw(delTime); // <--- Praktikum 1
         this.stats.end();
@@ -45,7 +46,7 @@ class AnimatedScene {
 
     private keyControl(event: KeyboardEvent) {
         if(event.key === "b"){
-            this.steps = 120;
+            this.steps = 500;
         }
     }
 }
