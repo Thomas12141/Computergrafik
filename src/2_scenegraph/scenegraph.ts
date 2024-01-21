@@ -22,6 +22,8 @@ export class Scenegraph {
 	constructor(rootNode: SGNode, private modelViewMatrix: mat4) {
 		this.root = rootNode;
 		this.matrixStack = new MatrixStack();
+		this.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
+        this.uNormalMatrix = gl.getUniformLocation(shaderProgram, "uNormalMatrix");
 		
 	}
 
@@ -33,11 +35,11 @@ export class Scenegraph {
 		const mvMat = mat4.create();
 		mat4.multiply(mvMat, this.matrixStack.peak(), node.getTransformationMatrix());
 		this.matrixStack.push(mvMat);
-		const mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
+		
         gl.uniformMatrix4fv(mvMatrixUniform, false,  mvMat);
 
 
-		const normalMatrixUniform = gl.getUniformLocation(shaderProgram, "uNormalMatrix");
+		
 		const normalMatrix = mat3.create();
 
 		mat3.normalFromMat4(normalMatrix, mvMat);
