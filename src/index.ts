@@ -9,6 +9,7 @@ class AnimatedScene {
     private scene: Scene;
     private time = 0;
     private steps = 0;
+    private diff = 0;
 
     /**
      * Initializes a new instance of the AnimatedScene class.
@@ -27,7 +28,7 @@ class AnimatedScene {
      * Draws the scene.
      */
     public draw( jetzt :number) {
-
+        const start = performance.now();
         jetzt *= 0.001;
         const delTime = jetzt - this.time;
 
@@ -36,17 +37,19 @@ class AnimatedScene {
             this.scene.keyboard.animateTimeBased();
             this.steps--;
         }
-        this.scene.draw(delTime); // <--- Praktikum 1
+        this.scene.draw(this.diff); // <--- Praktikum 1
         this.stats.end();
-        
+        this.diff = performance.now() - start;
         requestAnimationFrame((jetzt) => this.draw(jetzt));
         this.time = jetzt;
+
         
     }
 
     private keyControl(event: KeyboardEvent) {
         if(event.key === "b"){
-            this.steps = 500;
+            this.steps = 500/this.diff;
+            console.log(this.steps);
         }
     }
 }
