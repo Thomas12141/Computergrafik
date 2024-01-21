@@ -37,7 +37,7 @@ class AnimatedScene {
             this.scene.keyboard.animateTimeBased();
             this.steps--;
         }
-        this.scene.draw(this.diff); // <--- Praktikum 1
+        this.scene.draw(delTime); // <--- Praktikum 1
         this.stats.end();
         this.diff = performance.now() - start;
         requestAnimationFrame((jetzt) => this.draw(jetzt));
