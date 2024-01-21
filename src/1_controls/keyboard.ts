@@ -170,10 +170,7 @@ export class Keyboard {
       //  this.move([0.00, 0.0, 0.01]);
         break;
         case "r":
-          if(this.kinematics)
-          {
-            this.animateTimeBased();
-          }
+          this.animateTimeBased();
           break;
         // CAMERA ZOOM
       case "ArrowUp":

@@ -52,7 +52,7 @@ export class Scene {
     private cuboid: Cuboid;
 
     /** The keyboard controls. */
-    private readonly keyboard: Keyboard;
+    readonly keyboard: Keyboard;
 
     private scenegraph: Scenegraph;
 
@@ -341,4 +341,6 @@ export class Scene {
     private drawAufgabe3(): void {
         this.cuboid.draw();
     }
+
+
 }
