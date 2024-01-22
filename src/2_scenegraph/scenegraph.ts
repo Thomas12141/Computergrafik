@@ -36,7 +36,7 @@ export class Scenegraph {
 		mat4.multiply(mvMat, this.matrixStack.peak(), node.getTransformationMatrix());
 		this.matrixStack.push(mvMat);
 		
-        gl.uniformMatrix4fv(mvMatrixUniform, false,  mvMat);
+        gl.uniformMatrix4fv(this.mvMatrixUniform, false,  mvMat);
 
 
 		
@@ -44,7 +44,7 @@ export class Scenegraph {
 
 		mat3.normalFromMat4(normalMatrix, mvMat);
 		gl.uniformMatrix3fv(this.uNormalMatrix, false, normalMatrix);
-		gl.uniformMatrix3fv(normalMatrixUniform, false,  mat3.normalFromMat4(mat3.create(),mvMat));
+		gl.uniformMatrix3fv(this.uNormalMatrix, false,  mat3.normalFromMat4(mat3.create(),mvMat));
 
 		if (node instanceof Light) {
 			node.updatePosition(mvMat);
