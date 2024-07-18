@@ -40,8 +40,8 @@ export class Circle extends SGNode {
             vec3.set(v2, radius*Math.cos(vertex*angle), radius*Math.sin(vertex*angle), 0.0);
             vec3.set(v3, radius*Math.cos((vertex+1)*angle), radius*Math.sin((vertex+1)*angle), 0.0);
 
-            const triangle = new Triangle(v1, v2, v3,new Material([0.25, 0.25, 0.25, 1.0], [0.2, 0.2, 0.2, 1.0], [0.54, 0.54, 0.54, 1.0], [0.66, 0.66, 0.66, 1.0], 32.0));
-            this.triangles.push(triangle);
+         //   const triangle = new Triangle(v1, v2, v3,new Material([0.25, 0.25, 0.25, 1.0], [0.2, 0.2, 0.2, 1.0], [0.54, 0.54, 0.54, 1.0], [0.66, 0.66, 0.66, 1.0], 32.0));
+          //  this.triangles.push(triangle);
         }
 
         this.vertexPosAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");

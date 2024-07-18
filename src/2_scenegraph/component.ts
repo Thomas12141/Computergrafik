@@ -54,7 +54,7 @@ export abstract class Component extends SGNode {
     /**
      * Draws this component.
      */
-    draw(): void {
+    draw(time : number): void {
         // console.log("Drawing the component" + this.toString());
     }
 }

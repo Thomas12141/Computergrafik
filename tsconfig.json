@@ -4,9 +4,9 @@
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "CommonJS",
-        "target": "es6",
+        "target": "es2016",
         "moduleResolution": "node"
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "assets/**/*" ],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }

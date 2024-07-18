@@ -1,4 +1,7 @@
+import { Component } from "../2_scenegraph/component";
 import { SGNode } from "../2_scenegraph/sgnode";
+import { Material } from "../4_material_light/material";
+import { Texture } from "../5_texture/texture";
 import { gl, shaderProgram } from "../webgl2";
 
 /**
@@ -17,10 +20,17 @@ export class Cylinder extends SGNode {
     private vao: WebGLVertexArrayObject; // vertex array object
     private vbo: WebGLBuffer; // vertex buffer object
 
+    private circleMaterial : Material;
 
     private readonly normals : number[] = [];
+    private normalBuffer: WebGLBuffer;
+    
 
-    constructor(radius: number, height: number) {
+    private textureCoords: number[] = [];
+    private texturePosBuffer: WebGLBuffer;
+    private texturePosAttribute: number;
+
+    constructor(radius: number, height: number,private material :Material) {
         super();
 
         const halfheight = height / 2;
@@ -38,31 +48,16 @@ export class Cylinder extends SGNode {
         // Initialize array and buffer objects
         this.initVAO();
         this.initVBO();
-
-        // Get and enable Attribute location
-        const vertexAttributeLocation = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-        gl.enableVertexAttribArray(vertexAttributeLocation);
-        gl.vertexAttribPointer(vertexAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+       
+        this.circleMaterial = material;
 
         // Unbind VAO
         gl.bindVertexArray(null);
+
         
     }
 
-    initNormalBuffer() {
-        const normalAttributeLocation = gl.getAttribLocation(shaderProgram, "aNormalPosition");
-        
-        // Create and bind a normal buffer
-        const normalBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.normals), gl.STATIC_DRAW);
-
-        // Enable and specify the normal attribute for the vertices
-        gl.enableVertexAttribArray(normalAttributeLocation);
-      //  gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer); 
-        gl.vertexAttribPointer(normalAttributeLocation, 3, gl.FLOAT, false, 0, 0);
-    }
-
+   
 
     private computeFanVertices(radius: number, z: number, ccw = true) {
         // Draw cylinder bottom and top with TRIANGLE_FAN         
@@ -80,13 +75,43 @@ export class Cylinder extends SGNode {
 
         this.normals.push(0, 0, sign);
         this.vertices.push(0, 0, z); // Center
+        this.textureCoords.push(0,0);
         for (let j = 0; j < this.slices; j++) {
             const phi = j * 2 * Math.PI / (this.slices - 1);
             const x = radius * Math.cos(sign * phi);
             const y = radius * Math.sin(sign * phi);
             this.vertices.push(x, y, z);
             this.normals.push(0,0,sign);
+            const xT = Math.cos(sign * phi);
+            const yT = Math.sin(sign * phi);
+            this.textureCoords.push((xT+1)/2,(yT+1)/2);
         }
+       /* const quarterSlices = this.slices / 4;
+        const quarterA = Math.PI / 2;
+
+        for(let i = 0; i < quarterSlices; i++)
+        {
+            const phi = i*Math.PI/2 / (quarterSlices -1);
+            this.textureCoords.push(phi,quarterA);
+        }
+
+        for(let i = quarterSlices; i > 0; i--)
+        {
+            const phi = i*Math.PI/2 / (quarterSlices -1);
+            this.textureCoords.push(quarterA,phi);
+        }
+
+        for(let i = quarterSlices; i > 0; i--)
+        {
+            const phi = i*Math.PI/2 / (quarterSlices -1);
+            this.textureCoords.push(phi,0);
+        }
+
+        for(let i = 0; i < quarterSlices; i++)
+        {
+            const phi = i*Math.PI/2 / (quarterSlices -1);
+            this.textureCoords.push(0,phi);
+        } */
     }
 
     private computeBodyVertices(radius: number, hh: number) {
@@ -106,7 +131,14 @@ export class Cylinder extends SGNode {
             this.vertices.push(x, y, -hh);
             this.normals.push(x,y,0);
             this.normals.push(x,y,0);
+        //    const xT = Math.cos(phi);
+         //   const yT = Math.sin(phi);
+         //   this.textureCoords.push((xT+1)/2,(yT+1)/2);
+         //   this.textureCoords.push((xT+1)/2,(yT+1)/2);
+            this.textureCoords.push(j/(this.slices-1),0);
+            this.textureCoords.push(j/(this.slices -1),1);
         }
+    
     }
 
     private initVAO() {
@@ -118,17 +150,40 @@ export class Cylinder extends SGNode {
         this.vbo = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STATIC_DRAW);
+        
         const vertexAttributeLocation = gl.getAttribLocation(shaderProgram, "aVertexPosition");
         gl.enableVertexAttribArray(vertexAttributeLocation);
         gl.vertexAttribPointer(vertexAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+
+        
+        
+        this.normalBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.normals), gl.STATIC_DRAW);
+
+        const normalAttributeLocation = gl.getAttribLocation(shaderProgram, "aNormalPosition");
+        gl.enableVertexAttribArray(normalAttributeLocation);
+        gl.vertexAttribPointer(normalAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+
+       
+        this.texturePosBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.texturePosBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.textureCoords), gl.STATIC_DRAW);
+    
+        const textureCoordAttributeLocation = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+        gl.enableVertexAttribArray(textureCoordAttributeLocation);
+        gl.vertexAttribPointer(textureCoordAttributeLocation, 2, gl.FLOAT, false, 0, 0);
     }
 
     public draw() {
+        this.material.draw();
         gl.bindVertexArray(this.vao); // bind VAO
+
 
         gl.drawArrays(gl.TRIANGLE_FAN, 0, this.numFanVertices);
         gl.drawArrays(gl.TRIANGLE_FAN, this.numFanVertices, this.numFanVertices);
         gl.drawArrays(gl.TRIANGLE_STRIP, this.doubleFanVertices, this.numBodyVertices);
+       
         
         gl.bindVertexArray(null); // unbind VAO
     }
