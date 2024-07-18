@@ -2,6 +2,9 @@
 const Kinematics = require('kinematics').default;
 
 export class PoseControl {
+    animateTimeBased(time: number) {
+      throw new Error("Method not implemented.");
+    }
     private targetAngles: number[] = [];
     private robotKin: any;
     private stepper: number[] = [];

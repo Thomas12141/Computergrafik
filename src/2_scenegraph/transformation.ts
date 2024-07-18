@@ -1,7 +1,10 @@
 import { mat4, vec3 } from "gl-matrix";
 import { SGNode } from "./sgnode";
+import { Texture } from "../5_texture/texture";
 
 export class Transformation extends SGNode {
+
+    
 
     setPosition(position: vec3) {
         mat4.translate(this.transformationMatrix,this.transformationMatrix, position);

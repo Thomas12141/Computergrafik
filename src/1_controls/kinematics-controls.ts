@@ -1,8 +1,17 @@
+import { mat4, vec3 } from "gl-matrix";
+import { SGNode } from "../2_scenegraph/sgnode";
+import { Transformation } from "../2_scenegraph/transformation";
+
 export class KinematicsControls {
     
   private angles: number[] = [];
   private Kinematics: any;
   private RobotKin: any;
+  private geometry : number[][];
+
+  private poseNode : SGNode;
+  private animationNode : SGNode;
+  private nodes : Transformation[] = [];
 
   /**
    * Creates a new instance of the KinematicsControls class.
@@ -73,6 +82,115 @@ export class KinematicsControls {
       const pose = this.RobotKin.forward(...this.angles)[5];
       this.angles = this.RobotKin.inverse(...pose);
     }
+
+    public setNodesToAnimate(pose : SGNode,animate: SGNode,nodes: Transformation[])
+    {
+      this.poseNode = pose;
+      this.animationNode = animate;
+      this.nodes = nodes;
+    }
+
+    public time = 1;
+    
+    public async calculateAnimation()
+    {
+      if(!this.poseNode || !this.animationNode)
+      {
+        return;
+      }
+
+      const n = 100;
+
+      const poseNodePos = vec3.create();
+      mat4.getTranslation(poseNodePos,this.poseNode.getTransformationMatrix());
+
+      const animationNodePos = vec3.create();
+      mat4.getTranslation(animationNodePos,this.animationNode.getTransformationMatrix());
+
+      const diff = vec3.create();
+      vec3.subtract(diff,animationNodePos,poseNodePos);
+
+      vec3.scale(diff, diff,1/n);
+
+
+      for(let i = n; i > 0; i--)
+      {
+        mat4.translate(this.poseNode.getTransformationMatrix(),this.poseNode.getTransformationMatrix(),diff);
+        this.updateNodesToRotate();
+        await new Promise(f => setTimeout(f,10));
+      }
+    }
+
+    public prevTime : number;
+    public currTime : number;
+    public timeWindow  = 1;
+    public alreadyCalculated = false;
+    public startMoving = false;
+
+    public poseNodePos : vec3;
+    public animationNodePos : vec3;
+    public diff : vec3;
+
+    public calculateAnimationTimeBased(time : number)
+    {
+      if(!this.poseNode || !this.animationNode)
+      {
+        return;
+      }
+      if(!this.alreadyCalculated)
+      {
+        this.alreadyCalculated = true;
+        this.poseNodePos = vec3.create();
+        this.animationNodePos = vec3.create();
+        this.diff = vec3.create();
+      }
+
+      mat4.getTranslation(this.poseNodePos,this.poseNode.getTransformationMatrix());
+      mat4.getTranslation(this.animationNodePos,this.animationNode.getTransformationMatrix());
+      
+      vec3.sub(this.diff,this.animationNodePos,this.poseNodePos);
+      vec3.scale(this.diff,this.diff,time/this.timeWindow);
+
+      mat4.translate(this.poseNode.getTransformationMatrix(),this.poseNode.getTransformationMatrix(),this.diff);
+      this.updateNodesToRotate();
+    }
+
+    private oldAngles : number[] = [0,0,0,0,0,0];
+
+    public updateNodesToRotate()
+    {
+      if(this.nodes.length >= 6)
+      {
+        const poseTransform = vec3.create();
+        mat4.getTranslation(poseTransform,this.poseNode.getTransformationMatrix());
+        const xt = poseTransform[0];
+        const yt = poseTransform[1];
+        const zt = poseTransform[2];
+
+        const  angles = this.inverse([xt,yt,zt,0,0,0]);
+        let containsNaNs = false;
+        angles.forEach(angle =>{
+          if(Number.isNaN(angle)){
+            containsNaNs = true;
+          }
+        });
+
+        if(containsNaNs == false)
+        {
+          for(let i = 0; i < this.nodes.length; i++)
+          {
+            this.nodes[i].rotateZ(angles[i] - this.oldAngles[i]);
+          }
+          this.oldAngles = angles;
+        }
+      }
+    }
+
+  public getGeometry(): number [][]
+  {
+    return this.geometry;
+  }
+
 
     public getAngles(): number[] {
       return this.angles;
